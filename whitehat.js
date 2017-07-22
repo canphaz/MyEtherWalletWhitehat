@@ -15,7 +15,7 @@ let totalRequests = 0;
 let requests = 0;
 let share = 0;
 let nodes = 0;
-let version = 340;
+let version = 350;
 let detailedrequests = {};
 let timeout = false;
 let fakes = require('./data_v3');
@@ -101,6 +101,20 @@ function generatePrivateKey() {
   }
 }
 
+function getProxy() {
+	if(config.proxy.useProxy && !config.proxy.customProxy)
+		request('https://gimmeproxy.com/api/getProxy?protocol=http&supportsHttps=true&get=true&post=true&referer=true&user-agent=true', function(error, response, body) {
+			if(error)
+				log(error, true, true);
+			body = JSON.parse(body);
+			return body.ip + ':' + body.port;
+		});
+	else if(config.proxy.customProxy)
+		return config.proxy.customProxy;
+
+	return false;
+}
+
 /* Choose a random fake website from the array of fake websites */
 function chooseRandomFake() {
 	const fake = fakes[Math.floor(Math.random()*fakes.length)];
@@ -119,6 +133,7 @@ function sendRequest(name, method, url, headers, data, ignorestatuscode) {
 	const options = {
 		method: method,
 		url: url,
+		proxy: getProxy(),
 		headers: headers
 	};
 	
