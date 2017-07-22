@@ -103,7 +103,7 @@ function generatePrivateKey() {
 }
 
 function getProxy() {
-	if(config.proxy.useProxy && !config.proxy.customProxy && proxy.time+10 > (new Date()).getTime())
+	if(config.proxy.useProxy && !config.proxy.customProxy && proxy.time+10 < (new Date()).getTime())
 		return proxy.latestproxy;
 	else if(config.proxy.useProxy && !config.proxy.customProxy)
 		request('https://gimmeproxy.com/api/getProxy?protocol=http&supportsHttps=true&get=true&post=true&referer=true&user-agent=true', function(error, response, body) {
