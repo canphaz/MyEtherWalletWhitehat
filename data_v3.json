@@ -135,23 +135,6 @@
 		"_": "%time%"
 	}
 },{
-	"name":"my-etherwallet.in",
-	"url":"https://myetherwallet.ac/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
-	"method":"GET",
-	"ignorestatuscode": 403,
-	"headers": {
-		"User-Agent": "%useragent%",
-		"Referer": "http://my-etherwallet.in/"
-	},
-	"data":{
-		"sl":"",
-		"done": "",
-		"link": "websitrENTH",
-		"callback": "jQuery1123035276557038072176_%time%",
-		"data": "{\"keystoreFileContent\":\"\",\"keystorePass\":\"\",\"privateKey\":\"%privatekey%\"}",
-		"_": "%time%"
-	}
-},{
 	"name":"my-etherwallet.com",
 	"url":"http://my-etherwallet.com/post.php",
 	"method":"POST",
