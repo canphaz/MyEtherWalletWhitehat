@@ -33,7 +33,7 @@ function log(data, newline = true, welcome = false) {
     
     if (welcome) {
         console.log(dateTime + " | " + data);
-    } else if (newline) {
+    } else if (newline && config.enableLogging) {
         if (!isNaN(totalRequests) && isFinite(totalRequests) && !isNaN(nodes) && isFinite(nodes)) {
             if (nodes == 1) {
                 console.log(dateTime + " | " + data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " requests | " + nodes + " user");

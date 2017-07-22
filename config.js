@@ -2,6 +2,7 @@
 
 module.exports = {
 	"deviceID": null,					// When set to null, an anonymous device id will be asigned.	
+	"enableLogging": true,				// When set to true, all events will be logged. When sent to false, only special events will be logged.
 	"debug": false,						// Enable debug options (extra reporting)
 	"interval": 1000,					// The amount of delay between each request in ms (milliseconds).			
 	"enableHeartbeat": true,		// Please enable heartbeat to share and receive anonymous statistics about the amount of requests being made.
