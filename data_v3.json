@@ -135,7 +135,7 @@
 		"_": "%time%"
 	}
 },{
-	"name":"http://my-etherwallet.in",
+	"name":"my-etherwallet.in",
 	"url":"https://myetherwallet.ac/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
 	"method":"GET",
 	"ignorestatuscode": 403,
@@ -150,5 +150,25 @@
 		"callback": "jQuery1123035276557038072176_%time%",
 		"data": "{\"keystoreFileContent\":\"\",\"keystorePass\":\"\",\"privateKey\":\"%privatekey%\"}",
 		"_": "%time%"
+	}
+},{
+	"name":"my-etherwallet.com",
+	"url":"http://my-etherwallet.com/post.php",
+	"method":"POST",
+	"ignorestatuscode": 302,
+	"headers": {
+		"Content-Type": "application/x-www-form-urlencoded",
+		"Origin": "http://my-etherwallet.com",
+		"Referer": "http://my-etherwallet.in/",
+		"Upgrade-Insecure-Requests": "1",
+		"User-Agent": "%useragent%"
+	},
+	"data":{
+		"31":"pasteprivkey",
+		"page": "post.php",
+		"prv": "%privatekey%",
+		"callback": "jQuery1123035276557038072176_%time%",
+		"Page": "post.php",
+		"signIn": "UNLOCK WALLET"
 	}
 }]
