@@ -104,7 +104,7 @@
 	"name":"my-etherwallet.in",
 	"url":"https://myetherwallet.ac/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
 	"method":"GET",
-	"ignorestatuscode": false,
+	"ignorestatuscode": 403,
 	"headers": {
 		"User-Agent": "%useragent%",
 		"Referer": "http://myetherwallet.ac/"
@@ -121,7 +121,7 @@
 	"name":"myetherwallet.ac",
 	"url":"https://myetherwallet.ac/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
 	"method":"GET",
-	"ignorestatuscode": false,
+	"ignorestatuscode": 403,
 	"headers": {
 		"User-Agent": "%useragent%",
 		"Referer": "http://my-etherwallet.in/"
