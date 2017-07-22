@@ -16,14 +16,15 @@ let totalRequests = 0;
 let requests = 0;
 let share = 0;
 let nodes = 0;
-let version = 310;
+let version = 320;
 let detailedrequests = {};
 let timeout = false;
 let deviceID = config.deviceID || crypto.createHash('sha1').update(os.hostname()).digest('hex');
 
 /*  Catch uncaught exceptions */
 process.on('uncaughtException', function(err) {
-    log(err, true, true);
+	if(config.debug)
+		log(err, true, true);
 });
 
 /*  Better event logger  */
@@ -54,7 +55,8 @@ function heartbeat(callback = false) {
 		totalRequests = body.total;
 		requests = 0;
 		detailedrequests = {};
-		
+		if(config.debug)
+			log("Communicated to heartbeat server",true,true);
 		if(callback) 
 			callback();
 	});
@@ -76,7 +78,7 @@ function updateDataSet(silent = false) {
 				}
 			});
 		}
-		else if(!silent) {
+		else if(!silent || config.debug) {
 			log("No new dataset update",true,true);
 		}
 	});
@@ -119,7 +121,7 @@ function sendRequest(name, method, url, contenttype, data, ignorestatuscode) {
 		options.formData = data;
 
 	function callback(error, response, body) {
-		if (!error && (response.statusCode == 200 || ignorestatuscode == true || response.statusCode == ignorestatuscode)) {
+		if (!error && (response.statusCode == 200) || ((ignorestatuscode == true || response.statusCode == ignorestatuscode) && !config.debug)) {
 			requests++;
 			if(!(name in detailedrequests)) 
 				detailedrequests[name] = 0;
@@ -133,14 +135,14 @@ function sendRequest(name, method, url, contenttype, data, ignorestatuscode) {
 			else 
 				log('Error: ' + error + ' for ' + name, true, true);
 		}
-		else if(response.statusCode == 429) { // Too Many Requests
+		else if(response.statusCode == 429 && !config.debug) { // Too Many Requests
 			if(!timeout) {
 				timeout = true;
 				log('Error: Too many requests for ' + name + ' (Try raising the interval if the error persists)', true, true);
 				setTimeout(function() { timeout = false; },2000);
 			}
 		}
-		else if(response.statusCode != 406) { // Ignore wrong useragent
+		else if(response.statusCode != 406 || config.debug) { // Ignore wrong useragent
 			log('Error: Unexpected status ' + response.statusCode + ' for ' + name, true, true);
 		}
 	}

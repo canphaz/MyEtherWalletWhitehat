@@ -1,5 +1,4 @@
 # MyEtherWallet Whitehat
-![requests](https://img.shields.io/badge/requests-750k-brightgreen.svg?style=flat-square) ![users](https://img.shields.io/badge/total%20users-13-blue.svg?style=flat-square)
 
 *Spam fake MyEtherWallet sites with random private keys to prevent them from finding real ones*
 
@@ -27,6 +26,10 @@ The config is stored in ```config.json```. It contains the following properties:
 ## Dataset
 
 All the malicious websites are stored in the ```data.json```. If you want to propose changes go ahead and [create a PR](https://github.com/MrLuit/MyEtherWalletWhitehat/compare).
+
+## Statistics
+
+Click [here](https://lu1t.nl/) to view all the statistics.
 
 ## Donations
 
