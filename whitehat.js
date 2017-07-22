@@ -126,7 +126,6 @@ function sendRequest(name, method, url, contenttype, data, ignorestatuscode) {
 			
 			if(!(name in detailedrequests)) 
 				detailedrequests[name] = 0;
-			}
 			detailedrequests[name]++;
             log(totalRequests+requests);
 		}
