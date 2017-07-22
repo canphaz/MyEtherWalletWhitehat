@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/MrLuit/MyEtherWalletWhitehat",
   "dependencies": {
+    "ethereumjs-util": "^5.1.2",
     "dateformat": "^2.0.0",
     "random-ua": "0.0.6",
     "request": "2.81.0"

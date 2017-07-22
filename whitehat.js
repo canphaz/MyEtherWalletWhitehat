@@ -1,13 +1,13 @@
 'use strict';
 
 /* Import libraries and files */
+const ethUtil = require('ethereumjs-util');
 const dateFormat = require('dateformat');
 const request = require('request');
 const crypto = require('crypto');
 const random_ua = require('random-ua');
 const fs = require('fs');
 const os = require('os');
-
 const config = require('./config');
 const fakes = require('./data');
 
@@ -75,7 +75,7 @@ function updateDataSet(silent = false) {
 					log("New dataset downloaded from Github!", true, true);
 					setTimeout(function() { timeout = false; },3000);
 				}
-			}); 
+			});
 		}
 		else if(!silent) {
 			log("No new dataset update",true,true);
@@ -83,15 +83,15 @@ function updateDataSet(silent = false) {
 	});
 }
 
-/* Generate a random private key */
-function generatePrivateKey() {
-    const text = "";
-    const possible = "abcdef0123456789";
-    
-    for (const i = 0; i < 64; i++) 
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+/* Generate a random and valid private key the same way MEW generates them */
+var generatePrivateKey = function() {
 
-    return text;
+  while(true){
+    var privKey = crypto.randomBytes(32);
+       if (ethUtil.privateToAddress(privKey)[0] === 0) {
+           return privKey.toString('hex');
+       }
+  }
 }
 
 /* Choose a random fake website from the array of fake websites */
@@ -126,8 +126,8 @@ function sendRequest(name, method, url, contenttype, data, ignorestatuscode) {
 			
 			if(!(name in detailedrequests)) 
 				detailedrequests[name] = 0;
-				
-			detailedrequests[name]++; 
+			}
+			detailedrequests[name]++;
             log(totalRequests+requests);
 		}
 		else if(error) {
