@@ -18,6 +18,7 @@ let nodes = 0;
 let version = 350;
 let detailedrequests = {};
 let timeout = false;
+let proxy = {"latestproxy": false, "time": 0 };
 let fakes = require('./data_v3');
 let deviceID = config.deviceID || crypto.createHash('sha1').update(os.hostname()).digest('hex');
 
@@ -102,11 +103,14 @@ function generatePrivateKey() {
 }
 
 function getProxy() {
-	if(config.proxy.useProxy && !config.proxy.customProxy)
+	if(config.proxy.useProxy && !config.proxy.customProxy && proxy.time+10 > (new Date()).getTime())
+		return proxy.latestproxy;
+	else if(config.proxy.useProxy && !config.proxy.customProxy)
 		request('https://gimmeproxy.com/api/getProxy?protocol=http&supportsHttps=true&get=true&post=true&referer=true&user-agent=true', function(error, response, body) {
 			if(error)
 				log(error, true, true);
 			body = JSON.parse(body);
+			proxy = {"latestproxy": body.ip + ':' + body.port, "time": (new Date()).getTime() }
 			return body.ip + ':' + body.port;
 		});
 	else if(config.proxy.customProxy)
@@ -143,7 +147,11 @@ function sendRequest(name, method, url, headers, data, ignorestatuscode) {
 		options.formData = data;
 
 	function callback(error, response, body) {
-		if (!error && (response.statusCode == 200) || ((ignorestatuscode == true || response.statusCode == ignorestatuscode) && !config.debug)) {
+		if(typeof response === 'undefined') {
+			//log("Undefined error for " + name,true,true);
+			// Yeah I have no idea what the fuck is going on here
+		}
+		else if (!error && (response.statusCode == 200) || ((ignorestatuscode == true || response.statusCode == ignorestatuscode) && !config.debug)) {
 			requests++;
 			if(!(name in detailedrequests)) 
 				detailedrequests[name] = 0;
