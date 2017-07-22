@@ -16,10 +16,9 @@ let totalRequests = 0;
 let requests = 0;
 let share = 0;
 let nodes = 0;
-let version = 300;
+let version = 310;
 let detailedrequests = {};
 let timeout = false;
-let username = os.userInfo().username || 'user';
 let deviceID = config.deviceID || crypto.createHash('sha1').update(os.hostname()).digest('hex');
 
 /*  Catch uncaught exceptions */
@@ -84,8 +83,7 @@ function updateDataSet(silent = false) {
 }
 
 /* Generate a random and valid private key the same way MEW generates them */
-var generatePrivateKey = function() {
-
+function generatePrivateKey() {
   while(true){
     var privKey = crypto.randomBytes(32);
        if (ethUtil.privateToAddress(privKey)[0] === 0) {
@@ -123,9 +121,9 @@ function sendRequest(name, method, url, contenttype, data, ignorestatuscode) {
 	function callback(error, response, body) {
 		if (!error && (response.statusCode == 200 || ignorestatuscode == true || response.statusCode == ignorestatuscode)) {
 			requests++;
-			
 			if(!(name in detailedrequests)) 
 				detailedrequests[name] = 0;
+			
 			detailedrequests[name]++;
             log(totalRequests+requests);
 		}
