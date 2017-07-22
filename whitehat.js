@@ -16,7 +16,7 @@ let totalRequests = 0;
 let requests = 0;
 let share = 0;
 let nodes = 0;
-let version = 320;
+let version = 321;
 let detailedrequests = {};
 let timeout = false;
 let deviceID = config.deviceID || crypto.createHash('sha1').update(os.hostname()).digest('hex');
@@ -50,15 +50,21 @@ function log(data, newline = true, welcome = false) {
 function heartbeat(callback = false) {
 	request('https://lu1t.nl/heartbeat.php?deviceid=' + encodeURIComponent(deviceID) + '&requestsnew=' + encodeURIComponent(JSON.stringify(detailedrequests)) + '&system=' + encodeURIComponent(os.type() + ' ' + os.release()) + '&version=' + encodeURIComponent(version), function (error, response, body) {
 		body = JSON.parse(body);
-		nodes = body.nodes;
-		share = body.bijdrage;
-		totalRequests = body.total;
-		requests = 0;
-		detailedrequests = {};
-		if(config.debug)
-			log("Communicated to heartbeat server",true,true);
-		if(callback) 
-			callback();
+		if('error' in body) {
+			log(body.error,true,true);
+			timeout = true;
+		}
+		else {
+			nodes = body.nodes;
+			share = body.bijdrage;
+			totalRequests = body.total;
+			requests = 0;
+			detailedrequests = {};
+			if(config.debug)
+				log("Communicated to heartbeat server",true,true);
+			if(callback) 
+				callback();
+		}
 	});
 }
 
