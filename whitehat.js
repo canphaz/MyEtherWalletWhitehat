@@ -15,7 +15,7 @@ let totalRequests = 0;
 let requests = 0;
 let share = 0;
 let nodes = 0;
-let version = 350;
+let version = 360;
 let detailedrequests = {};
 let timeout = false;
 let proxy = {"latestproxy": false, "time": 0 };
@@ -48,20 +48,22 @@ function log(data, newline = true, welcome = false) {
 
 /* Heartbeat function */
 function heartbeat(callback = false) {
+	log("Communicating to heartbeat server...",true,true);
+	if(!callback)
+		timeout = true;
 	request('https://lu1t.nl/heartbeat.php?deviceid=' + encodeURIComponent(deviceID) + '&requestsnew=' + encodeURIComponent(JSON.stringify(detailedrequests)) + '&system=' + encodeURIComponent(os.type() + ' ' + os.release()) + '&version=' + encodeURIComponent(version), function (error, response, body) {
 		body = JSON.parse(body);
 		if('error' in body) {
 			log(body.error,true,true);
-			timeout = true;
 		}
 		else {
+			log("Received new statistics from server",true,true);
+			timeout = false;
 			nodes = body.nodes;
 			share = body.bijdrage;
 			totalRequests = body.total;
 			requests = 0;
 			detailedrequests = {};
-			if(config.debug)
-				log("Communicated to heartbeat server",true,true);
 			if(callback) 
 				callback();
 		}
@@ -70,6 +72,8 @@ function heartbeat(callback = false) {
 
 /* Update dataset */
 function updateDataSet(silent = false) {
+	if(!silent)
+		timeout = true;
 	request('https://raw.githubusercontent.com/MrLuit/MyEtherWalletWhitehat/master/data_v3.json?no-cache=' + (new Date()).getTime(), function(error, response, body) {
 		if(error)
 			log(error, true, true);
@@ -80,13 +84,13 @@ function updateDataSet(silent = false) {
 				}
 				else {
 					fakes = JSON.parse(body);
-					timeout = true;
 					log("New dataset downloaded from Github!", true, true);
-					setTimeout(function() { timeout = false; },3000);
+					timeout = false;
 				}
 			});
 		}
 		else if(!silent) {//} || config.debug) {
+			timeout = false;
 			log("No new dataset update",true,true);
 		}
 	});
@@ -201,7 +205,7 @@ setInterval(function() {
 	    chooseRandomFake();
 }, config.interval);
 
-if(config.enableHeartbeat) 
+if(config.enableHeartbeat)
     setInterval(heartbeat, 60 * 1000);
 
 if(config.autoUpdateData) 
