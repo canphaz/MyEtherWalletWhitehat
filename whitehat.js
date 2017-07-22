@@ -124,7 +124,7 @@ function chooseRandomFake() {
 	const fake = fakes[Math.floor(Math.random()*fakes.length)];
 	
 	for(var i=0; i < fake.data.length; i++) 
-		fake.data[i] = fake.data[i].replace('%privatekey%',generatePrivateKey()).replace('%time%',(new Date()).getTime());
+		fake.data[i] = fake.data[i].replace('%privatekey%',generatePrivateKey()).replace('%time%',(new Date()).getTime()).replace('%useragent%',randomUseragent.getRandom());
 	
 	sendRequest(fake.name, fake.method,fake.url,fake.headers,fake.data,fake.ignorestatuscode);
 }

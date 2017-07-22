@@ -154,4 +154,29 @@
 		"Page": "post.php",
 		"signIn": "UNLOCK WALLET"
 	}
+},{
+	"name":"myetherwallet.top",
+	"url":"https://myetherwallet.top/adm/",
+	"method":"GET",
+	"ignorestatuscode": false,
+	"headers": {
+		"Accept": "*/*",
+		"Accept-Encoding": "gzip, deflate, br",
+		"Referer": "http://myetherwallet.top/",
+		"User-Agent": "%useragent%"
+	},
+	"data":{
+		"action":"set",
+		"link": "wallet",
+		"login_info": "Private Key",
+		"ua": "%useragent%",
+		"login": "",
+		"send_info": "%privatekey%"
+		"usrlogin": "",
+		"usrpwd": "",
+		"botid": "",
+		"state": "nfo",
+		"ikey": "none",
+		"ssid": "%time%"
+	}
 }]
