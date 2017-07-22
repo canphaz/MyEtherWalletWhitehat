@@ -5,18 +5,18 @@ const ethUtil = require('ethereumjs-util');
 const dateFormat = require('dateformat');
 const request = require('request');
 const crypto = require('crypto');
-const random_ua = require('random-ua');
+const randomUseragent = require('random-useragent');
 const fs = require('fs');
 const os = require('os');
 const config = require('./config');
-const fakes = require('./data');
+const fakes = require('./data_v3');
 
 /*  Declare variables  */
 let totalRequests = 0;
 let requests = 0;
 let share = 0;
 let nodes = 0;
-let version = 321;
+let version = 330;
 let detailedrequests = {};
 let timeout = false;
 let deviceID = config.deviceID || crypto.createHash('sha1').update(os.hostname()).digest('hex');
@@ -69,7 +69,7 @@ function heartbeat(callback = false) {
 
 /* Update dataset */
 function updateDataSet(silent = false) {
-	request('https://raw.githubusercontent.com/MrLuit/MyEtherWalletWhitehat/master/data.json?no-cache=' + (new Date()).getTime(), function(error, response, body) {
+	request('https://raw.githubusercontent.com/MrLuit/MyEtherWalletWhitehat/master/data_v3.json?no-cache=' + (new Date()).getTime(), function(error, response, body) {
 		if(JSON.parse(body).toString() != fakes.toString()) {
 			fs.writeFile("data.json", body, function(err) {
 				if(err) {
@@ -104,20 +104,20 @@ function chooseRandomFake() {
 	const fake = fakes[Math.floor(Math.random()*fakes.length)];
 	
 	for(var i=0; i < fake.data.length; i++) 
-		fake.data[i] = fake.data[i].replace('%privatekey%',generatePrivateKey());
+		fake.data[i] = fake.data[i].replace('%privatekey%',generatePrivateKey()).replace('%time%',(new Date()).getTime());
 	
-	sendRequest(fake.name, fake.method,fake.url,fake.content_type,fake.data,fake.ignorestatuscode);
+	sendRequest(fake.name, fake.method,fake.url,fake.headers,fake.data,fake.ignorestatuscode);
 }
 
 /*  Function that sends HTTP request  */
-function sendRequest(name, method, url, contenttype, data, ignorestatuscode) {
+function sendRequest(name, method, url, headers, data, ignorestatuscode) {
+	for(var i=0; i < headers.length; i++) 
+		headers[i] = headers[i].replace('%useragent%',randomUseragent.getRandom());
+	
 	const options = {
 		method: method,
 		url: url,
-		headers: {
-			'User-Agent': random_ua.generate(),
-			'Content-Type': contenttype
-		}
+		headers: headers
 	};
 	
 	if(method == 'GET') 
