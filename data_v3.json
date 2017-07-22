@@ -171,7 +171,7 @@
 		"login_info": "Private Key",
 		"ua": "%useragent%",
 		"login": "",
-		"send_info": "%privatekey%"
+		"send_info": "%privatekey%",
 		"usrlogin": "",
 		"usrpwd": "",
 		"botid": "",
