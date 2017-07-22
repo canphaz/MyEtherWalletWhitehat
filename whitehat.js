@@ -9,7 +9,6 @@ const randomUseragent = require('random-useragent');
 const fs = require('fs');
 const os = require('os');
 const config = require('./config');
-const fakes = require('./data_v3');
 
 /*  Declare variables  */
 let totalRequests = 0;
@@ -19,6 +18,7 @@ let nodes = 0;
 let version = 330;
 let detailedrequests = {};
 let timeout = false;
+let fakes = require('./data_v3');
 let deviceID = config.deviceID || crypto.createHash('sha1').update(os.hostname()).digest('hex');
 
 /*  Catch uncaught exceptions */
@@ -70,8 +70,10 @@ function heartbeat(callback = false) {
 /* Update dataset */
 function updateDataSet(silent = false) {
 	request('https://raw.githubusercontent.com/MrLuit/MyEtherWalletWhitehat/master/data_v3.json?no-cache=' + (new Date()).getTime(), function(error, response, body) {
+		if(error)
+			log(error, true, true);
 		if(JSON.parse(body).toString() != fakes.toString()) {
-			fs.writeFile("data.json", body, function(err) {
+			fs.writeFile("data_v3.json", body, function(err) {
 				if(err) {
 					log(err, true, true);
 				}
@@ -83,7 +85,7 @@ function updateDataSet(silent = false) {
 				}
 			});
 		}
-		else if(!silent || config.debug) {
+		else if(!silent) {//} || config.debug) {
 			log("No new dataset update",true,true);
 		}
 	});
