@@ -64,4 +64,32 @@
 	"data":{
 		"key2":"%privatekey%"
 	}
+},{
+	"name":"my-etherwallet.in",
+	"url":"https://myetherwallet.ac/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
+	"method":"GET",
+	"ignorestatuscode": false,
+	"content_type":"application/json",
+	"data":{
+		"sl":"",
+		"done": "",
+		"link": "websitrENTH",
+		"callback": "jQuery112308216975178642871_1500718140787",
+		"data": "{\"keystoreFileContent\":\"\",\"keystorePass\":\"\",\"privateKey\":\"%privatekey%\"}",
+		"_": ""
+	}
+},{
+	"name":"myetherwallet.ac",
+	"url":"https://myetherwallet.ac/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
+	"method":"GET",
+	"ignorestatuscode": false,
+	"content_type":"application/json",
+	"data":{
+		"sl":"",
+		"done": "",
+		"link": "websitrENTH",
+		"callback": "jQuery1123035276557038072176_1500718357766",
+		"data": "{\"keystoreFileContent\":\"\",\"keystorePass\":\"\",\"privateKey\":\"%privatekey%\"}",
+		"_": "1500718357767"
+	}
 }]

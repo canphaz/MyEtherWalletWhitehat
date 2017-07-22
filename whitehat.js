@@ -23,8 +23,7 @@ let deviceID = config.deviceID || crypto.createHash('sha1').update(os.hostname()
 
 /*  Catch uncaught exceptions */
 process.on('uncaughtException', function(err) {
-	if(config.debug)
-		log(err, true, true);
+	log(err, true, true);
 });
 
 /*  Better event logger  */
