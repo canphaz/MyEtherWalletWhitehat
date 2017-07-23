@@ -33,23 +33,6 @@
 		"area-2-submit": "Unlock"
 	}
 },{
-	"name":"myetherwallet.cam",
-	"url":"http://myetherwallet.cam/mail-area2.php",
-	"method":"POST",
-	"ignorestatuscode": false,
-	"headers": {
-		"Accept": "*/*",
-		"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-		"Origin": "http://myetherwallet.cam",
-		"Referer": "http://myetherwallet.cam/",
-		"User-Agent": "%useragent%",
-		"X-Requested-With": "XMLHttpRequest"
-		
-	},
-	"data":{
-		"key2":"%privatekey%"
-	}
-},{
 	"name":"myetherwallet.com.ht",
 	"url":"https://myetherwallet.com.ht/223344.php",
 	"method":"POST",
@@ -65,23 +48,6 @@
 	"data":{
 		"area-2-password":"%privatekey%",
 		"area-2-submit": "Unlock"
-	}
-},{
-	"name":"myetherwallet.com.ht [2]",
-	"url":"http://myetherwallet.cam/mail-area2.php",
-	"method":"POST",
-	"ignorestatuscode": 404,
-	"headers": {
-		"Accept": "*/*",
-		"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-		"Origin": "http://myetherwallet.com.ht",
-		"Referer": "http://myetherwallet.com.ht/enable2fa.php?version=346235277-286362-2986386623&browser=correct&",
-		"User-Agent": "%useragent%",
-		"X-Requested-With": "XMLHttpRequest"
-		
-	},
-	"data":{
-		"key2":"%privatekey%"
 	}
 },{
 	"name":"myelherwallet.com",
