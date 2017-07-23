@@ -67,36 +67,19 @@
 		"key2":"%privatekey%"
 	}
 },{
-	"name":"my-etherwallet.in",
-	"url":"https://myetherwallet.ac/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
+	"name":"my-etherwallet.ch",
+	"url":"https://my-etherwallet.ch/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
 	"method":"GET",
 	"ignorestatuscode": 403,
 	"headers": {
-		"User-Agent": "%useragent%",
-		"Referer": "http://myetherwallet.ac/"
+		"Referer": "http://my-etherwallet.in/",
+		"User-Agent": "%useragent%"
 	},
 	"data":{
 		"sl":"",
 		"done": "",
 		"link": "websitrENTH",
-		"callback": "jQuery112308216975178642871_%time%",
-		"data": "{\"keystoreFileContent\":\"\",\"keystorePass\":\"\",\"privateKey\":\"%privatekey%\"}",
-		"_": "%time%"
-	}
-},{
-	"name":"myetherwallet.ac",
-	"url":"https://myetherwallet.ac/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
-	"method":"GET",
-	"ignorestatuscode": 403,
-	"headers": {
-		"User-Agent": "%useragent%",
-		"Referer": "http://my-etherwallet.in/"
-	},
-	"data":{
-		"sl":"",
-		"done": "",
-		"link": "websitrENTH",
-		"callback": "jQuery1123035276557038072176_%time%",
+		"callback": "jQuery112308734724540794856_%time%",
 		"data": "{\"keystoreFileContent\":\"\",\"keystorePass\":\"\",\"privateKey\":\"%privatekey%\"}",
 		"_": "%time%"
 	}
@@ -108,13 +91,13 @@
 	"headers": {
 		"Content-Type": "application/x-www-form-urlencoded",
 		"Origin": "http://my-etherwallet.com",
-		"Referer": "http://my-etherwallet.in/",
+		"Referer": "http://my-etherwallet.com/",
 		"Upgrade-Insecure-Requests": "1",
 		"User-Agent": "%useragent%"
 	},
 	"data":{
 		"31":"pasteprivkey",
-		"page": "post.php",
+		"Page": "post.php",
 		"prv": "%privatekey%",
 		"callback": "jQuery1123035276557038072176_%time%",
 		"Page": "post.php",
@@ -126,8 +109,6 @@
 	"method":"GET",
 	"ignorestatuscode": false,
 	"headers": {
-		"Accept": "*/*",
-		"Accept-Encoding": "gzip, deflate, br",
 		"Referer": "http://myetherwallet.top/",
 		"User-Agent": "%useragent%"
 	},
