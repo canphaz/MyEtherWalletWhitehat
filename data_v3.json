@@ -2,7 +2,7 @@
 	"name":"myetherwallet.com.am [2]",
 	"url":"https://myetherwallet.com.am/mail-area22.php",
 	"method":"POST",
-	"ignorestatuscode": true,
+	"ignorestatuscode": false,
 	"headers": {
 		"Accept": "*/*",
 		"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -53,7 +53,7 @@
 	"name":"myelherwallet.com",
 	"url":"http://myelherwallet.com/mail-area2.php",
 	"method":"POST",
-	"ignorestatuscode": true,
+	"ignorestatuscode": 429,
 	"headers": {
 		"Accept": "*/*",
 		"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -70,7 +70,7 @@
 	"name":"my-etherwallet.ch",
 	"url":"https://my-etherwallet.ch/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
 	"method":"GET",
-	"ignorestatuscode": 403,
+	"ignorestatuscode": 503,
 	"headers": {
 		"Referer": "http://my-etherwallet.in/",
 		"User-Agent": "%useragent%"
