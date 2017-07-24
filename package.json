@@ -20,6 +20,7 @@
   "dependencies": {
     "dateformat": "^2.0.0",
     "ethereumjs-util": "^5.1.2",
+    "fs-extra": "^4.0.0",
     "random-useragent": "^0.3.1",
     "request": "2.81.0"
   }
