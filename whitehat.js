@@ -17,7 +17,7 @@ let totalRequests = 0;
 let requests = 0;
 let share = 0;
 let nodes = 0;
-let version = 370;
+let version = 371;
 let detailedRequests = {};
 let timeout = false;
 let proxy = {"latestproxy": false, "time": 0};
@@ -26,7 +26,7 @@ let deviceID = config.deviceID || crypto.createHash('sha1').update(os.hostname()
 
 /*  Better event logger  */
 function log(data, newline = true, welcome = false) {
-    const dateTime = dateFormat(new Date(), "h:MM:ss");
+    const dateTime = dateFormat(new Date(), "HH:MM:ss");
 
     if (welcome) {
         console.log(dateTime + " | " + data);
