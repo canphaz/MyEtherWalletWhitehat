@@ -8,7 +8,7 @@ module.exports = {
 	"enableHeartbeat": true,		// Please enable heartbeat to share and receive anonymous statistics about the amount of requests being made.
 	"autoUpdateData": true,			// Please enable to make sure you always get the latest dataset.
 	"proxy": {
-		"useProxy": true,			// Enable proxy support
+		"useProxy": false,			// Enable proxy support (NOT READY YET BUT YOU CAN USE CUSTOM PROXY)
 		"customProxy": null			// When set to null, a random proxy will be used every 10 seconds
 	}
 };

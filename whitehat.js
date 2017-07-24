@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 /* Import libraries and files */
 const ethUtil = require('ethereumjs-util');
@@ -15,7 +15,7 @@ let totalRequests = 0;
 let requests = 0;
 let share = 0;
 let nodes = 0;
-let version = 360;
+let version = 370;
 let detailedrequests = {};
 let timeout = false;
 let proxy = {"latestproxy": false, "time": 0 };
@@ -23,13 +23,13 @@ let fakes = require('./data_v3');
 let deviceID = config.deviceID || crypto.createHash('sha1').update(os.hostname()).digest('hex');
 
 /*  Catch uncaught exceptions */
-process.on('uncaughtException', function(err) {
-	log(err, true, true);
-});
+//process.on('uncaughtException', function(err) {
+	//log(err, true, true);
+//});
 
 /*  Better event logger  */
 function log(data, newline = true, welcome = false) {
-    const dateTime = dateFormat(new Date(), "hh:mm:ss");
+    const dateTime = dateFormat(new Date(), "h:MM:ss");
     
     if (welcome) {
         console.log(dateTime + " | " + data);
@@ -48,17 +48,16 @@ function log(data, newline = true, welcome = false) {
 
 /* Heartbeat function */
 function heartbeat(callback = false) {
-	log("Communicating to heartbeat server...",true,true);
 	if(!callback)
-		timeout = true;
+		log("Communicating to heartbeat server...",true,true);
 	request('https://lu1t.nl/heartbeat.php?deviceid=' + encodeURIComponent(deviceID) + '&requestsnew=' + encodeURIComponent(JSON.stringify(detailedrequests)) + '&system=' + encodeURIComponent(os.type() + ' ' + os.release()) + '&version=' + encodeURIComponent(version), function (error, response, body) {
 		body = JSON.parse(body);
 		if('error' in body) {
 			log(body.error,true,true);
 		}
 		else {
-			log("Received new statistics from server",true,true);
-			timeout = false;
+			if(!callback)
+				log("Received new statistics from server",true,true);
 			nodes = body.nodes;
 			share = body.bijdrage;
 			totalRequests = body.total;
@@ -72,8 +71,6 @@ function heartbeat(callback = false) {
 
 /* Update dataset */
 function updateDataSet(silent = false) {
-	if(!silent)
-		timeout = true;
 	request('https://raw.githubusercontent.com/MrLuit/MyEtherWalletWhitehat/master/data_v3.json?no-cache=' + (new Date()).getTime(), function(error, response, body) {
 		if(error)
 			log(error, true, true);
@@ -85,12 +82,10 @@ function updateDataSet(silent = false) {
 				else {
 					fakes = JSON.parse(body);
 					log("New dataset downloaded from Github!", true, true);
-					timeout = false;
 				}
 			});
 		}
 		else if(!silent) {//} || config.debug) {
-			timeout = false;
 			log("No new dataset update",true,true);
 		}
 	});
@@ -106,42 +101,61 @@ function generatePrivateKey() {
   }
 }
 
-function getProxy() {
-	if(config.proxy.useProxy && !config.proxy.customProxy && proxy.time+10 < (new Date()).getTime())
-		return proxy.latestproxy;
-	else if(config.proxy.useProxy && !config.proxy.customProxy)
+function getProxy(name, method, url, headers, data, ignorestatuscode) {
+	if(config.proxy.customProxy) {
+		sendRequest(name, method,url,headers,data,ignorestatuscode, config.proxy.customProxy);
+	}
+	else if(proxy.time+10 > (new Date()).getTime()) {
+		sendRequest(name, method,url,headers,data,ignorestatuscode, proxy.latestproxy);
+	}
+	else {
 		request('https://gimmeproxy.com/api/getProxy?protocol=http&supportsHttps=true&get=true&post=true&referer=true&user-agent=true', function(error, response, body) {
 			if(error)
 				log(error, true, true);
+	
 			body = JSON.parse(body);
-			proxy = {"latestproxy": body.ip + ':' + body.port, "time": (new Date()).getTime() }
-			return body.ip + ':' + body.port;
+			console.log(body);
+			proxy.latestproxy = body.ip + ':' + body.port
+			proxy.time = (new Date()).getTime();
+			
+			sendRequest(name, method,url,headers,data,ignorestatuscode, body.ip + ':' + body.port);
 		});
-	else if(config.proxy.customProxy)
-		return config.proxy.customProxy;
-
-	return false;
+	}
 }
 
 /* Choose a random fake website from the array of fake websites */
 function chooseRandomFake() {
-	const fake = fakes[Math.floor(Math.random()*fakes.length)];
+	var fake = fakes[Math.floor(Math.random()*fakes.length)];
+	var ua = randomUseragent.getRandom();
+	var priv = generatePrivateKey();
+	var realfake = JSON.parse(JSON.stringify(fake)); // Hacky workaround, feel free to make PR
+	var time = (new Date()).getTime();
+
+	for(var key in fake.data){
+		realfake.data[key] = realfake.data[key].replace(/%privatekey%/g,priv).replace(/%time%/g,time);
+		realfake.data[key] = realfake.data[key].replace(/%time%/g,time);
+		realfake.data[key] = realfake.data[key].replace(/%useragent%/g,ua);
+	}
 	
-	for(var i=0; i < fake.data.length; i++) 
-		fake.data[i] = fake.data[i].replace('%privatekey%',generatePrivateKey()).replace('%time%',(new Date()).getTime()).replace('%useragent%',randomUseragent.getRandom());
+	for(var key in fake.headers){
+		realfake.headers[key] = realfake.headers[key].replace(/%useragent%/g,ua);
+		realfake.headers[key] = realfake.headers[key].replace(/%time%/g,time);
+	}
 	
-	sendRequest(fake.name, fake.method,fake.url,fake.headers,fake.data,fake.ignorestatuscode);
+	if(config.proxy.useProxy && false) {
+		getProxy(realfake.name, realfake.method,realfake.url,realfake.headers,realfake.data,realfake.ignorestatuscode);
+	} else {
+		sendRequest(realfake.name, realfake.method,realfake.url,realfake.headers,realfake.data,realfake.ignorestatuscode);
+	}
 }
 
 /*  Function that sends HTTP request  */
-function sendRequest(name, method, url, headers, data, ignorestatuscode) {
-	for(var i=0; i < headers.length; i++) 
-		headers[i] = headers[i].replace('%useragent%',randomUseragent.getRandom());
+function sendRequest(name, method, url, headers, data, ignorestatuscode, proxy = false) {
 	
 	const options = {
 		method: method,
 		url: url,
-		proxy: getProxy(),
+		proxy: proxy,
 		headers: headers
 	};
 	
