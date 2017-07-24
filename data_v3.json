@@ -1,21 +1,4 @@
 [{
-	"name":"my-etherwallet.ch",
-	"url":"https://my-etherwallet.ch/rtfuyiouytdfyguijopuyhghuji/gates/log.php",
-	"method":"GET",
-	"ignorestatuscode": 503,
-	"headers": {
-		"Referer": "http://my-etherwallet.in/",
-		"User-Agent": "%useragent%"
-	},
-	"data":{
-		"sl":"",
-		"done": "",
-		"link": "websitrENTH",
-		"callback": "jQuery112308734724540794856_%time%",
-		"data": "{\"keystoreFileContent\":\"\",\"keystorePass\":\"\",\"privateKey\":\"%privatekey%\"}",
-		"_": "%time%"
-	}
-},{
 	"name":"my-etherwallet.com",
 	"url":"http://my-etherwallet.com/post.php",
 	"method":"POST",
